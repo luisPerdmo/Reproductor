@@ -6,7 +6,11 @@ from Tooltip import Tooltip
 
 class Reproductor():
 
-    
+    def Abrirmenu(self, event):
+        ventana_menu = tk.Toplevel(self.ventana)
+        ventana_menu.title("Carpeta de Canciones")
+        ventana_menu.config(width=400, height=300)
+
     def __init__(self):
         mx.init()
         self.ventana = tk.Tk()
@@ -57,6 +61,7 @@ class Reproductor():
 
         self.btnMenu = tk.Button(self.ventana, image=self.menu, bg="#FFFFFF")
         self.btnMenu.place(relx=0.80, rely=0.56, width=42, height=25)
+        self.btnMenu.bind("<Button-1>", self.Abrirmenu)
         Tooltip(self.btnMenu,"Presione para ver carpeta de canciones")
 
         # Barra de progreso 
