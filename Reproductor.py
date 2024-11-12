@@ -11,6 +11,14 @@ class Reproductor():
         ventanaMenu.title("Carpeta de Canciones")
         ventanaMenu.config(width=400, height=300)
 
+    def moverVolumen(self, event):
+        x = event.x
+        if 20 <= x <= 184:
+            self.Volumen.coords(self.volumenMarker, x - 5, 25 - 5, x + 5, 25 + 5)
+            self.volumen = (x - 20) / 180 
+            mx.music.set_volume(self.volumen)
+
+
     def __init__(self):
         mx.init()
         self.ventana = tk.Tk()
@@ -84,6 +92,7 @@ class Reproductor():
         self.Volumen.place(relx=0.49, rely=0.84, anchor="center")
         self.Volumen.create_line(20, 25, 200, 25, fill="#333", width=1)
         self.volumenMarker = self.Volumen.create_oval(20 - 5, 25 - 5, 20 + 5, 25 + 5, fill="black")
+        self.Volumen.bind("<B1-Motion>", self.moverVolumen)
 
         
        
