@@ -38,6 +38,8 @@ class Reproductor():
         self.back = tk.PhotoImage(file=r"Reproductor/iconos/back.png")
         self.back2 = tk.PhotoImage(file=r"Reproductor/iconos/back2.png")
         self.menu = tk.PhotoImage(file=r"Reproductor/iconos/menu.png")
+        self.mute = tk.PhotoImage(file=r"Reproductor/iconos/volume-mute.png")
+        self.volume = tk.PhotoImage(file=r"Reproductor/iconos/volume.png")
 
         #Botones
         self.btnPlay = tk.Button(self.ventana, image=self.play)
@@ -64,6 +66,12 @@ class Reproductor():
         self.btnMenu.place(relx=0.80, rely=0.56, width=42, height=25)
         self.btnMenu.bind("<Button-1>", self.Abrirmenu)
         Tooltip(self.btnMenu,"Presione para ver carpeta de canciones")
+
+        self.lblMute = tk.Label(self.ventana, image=self.mute, bg="#FFFFFF")
+        self.lblMute.place(relx=0.34, rely=0.84, width=20, height=20, anchor="center")
+
+        self.lblVolumen = tk.Label(self.ventana, image=self.volume, bg="#FFFFFF")
+        self.lblVolumen.place(relx=0.66, rely=0.84, width=20, height=20, anchor="center")
 
         # Barra de progreso 
         self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#555", bd=0, relief="flat")
