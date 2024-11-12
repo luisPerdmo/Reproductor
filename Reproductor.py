@@ -50,6 +50,7 @@ class Reproductor():
         self.menu = tk.PhotoImage(file=r"Reproductor/iconos/menu.png")
         self.mute = tk.PhotoImage(file=r"Reproductor/iconos/volume-mute.png")
         self.volume = tk.PhotoImage(file=r"Reproductor/iconos/volume.png")
+        self.help= tk.PhotoImage(file=r"Reproductor/iconos/help.png")
 
         #Botones
         self.btnPlay = tk.Button(self.ventana, image=self.play)
@@ -76,6 +77,10 @@ class Reproductor():
         self.btnMenu.place(relx=0.80, rely=0.56, width=42, height=25)
         self.btnMenu.bind("<Button-1>", self.Abrirmenu)
         Tooltip(self.btnMenu,"Presione para ver carpeta de canciones")
+
+        self.btnHelp = tk.Button(self.ventana, image=self.help)
+        self.btnHelp.place(relx=1.0, rely=0.02, anchor="ne", width=40, height=40)
+        Tooltip(self.btnHelp,"Presione para mirar ayuda")
 
         self.lblMute = tk.Label(self.ventana, image=self.mute, bg="#FFFFFF")
         self.lblMute.place(relx=0.34, rely=0.84, width=20, height=20, anchor="center")
