@@ -22,6 +22,7 @@ class Reproductor():
         # Variables de control
         self.listaCanciones = []#lista de canciones
         self.cancionActual = None
+        self.volumen = 0.5  # Volumen inicial
 
         #frame
         self.frameBorde = tk.Frame(self.ventana, bd=5, relief="ridge", bg="black")
@@ -70,5 +71,14 @@ class Reproductor():
         self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#1db954", outline="") 
         self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#1db954", outline="")
 
+        #Crear un Canvas para el control de volumen
+        self.Volumen = tk.Canvas(self.ventana, width=190, height=50, bg="#FFFFFF", highlightthickness=0)
+        self.Volumen.place(relx=0.49, rely=0.84, anchor="center")
+        self.Volumen.create_line(20, 25, 200, 25, fill="#333", width=1)
+        self.volumenMarker = self.Volumen.create_oval(20 - 5, 25 - 5, 20 + 5, 25 + 5, fill="black")
+
+        
+       
+        
 
         self.ventana.mainloop()
