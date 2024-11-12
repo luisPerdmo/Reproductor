@@ -15,7 +15,6 @@ class Reproductor():
         x = event.x
         if 20 <= x <= 184:
             self.Volumen.coords(self.volumenMarker, x - 5, 25 - 5, x + 5, 25 + 5)
-            self.volumen = (x - 20) / 180 
             mx.music.set_volume(self.volumen)
 
 
