@@ -53,10 +53,14 @@ class Reproductor():
         self.btnBack.place(relx=0.67, rely=0.76, width=40, height=40, anchor="center")
         Tooltip(self.btnBack,"Presione para adelantar 10 segundos")
 
+        self.btnMenu = tk.Button(self.ventana, image=self.menu, bg="#FFFFFF")
+        self.btnMenu.place(relx=0.80, rely=0.56, width=42, height=25)
+
         # Barra de progreso 
         self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#555", bd=0, relief="flat")
         self.barra.place(relx=0.14, rely=0.67)
         self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#1db954", outline="") 
+        self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#1db954", outline="")
 
 
         self.ventana.mainloop()
