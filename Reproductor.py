@@ -78,10 +78,10 @@ class Reproductor():
         self.btnBack.place(relx=0.67, rely=0.76, width=40, height=40, anchor="center")
         Tooltip(self.btnBack,"Presione para adelantar 10 segundos")
 
-        self.btnMenu = tk.Button(self.ventana, image=self.menu, bg="#FFFFFF")
-        self.btnMenu.place(relx=0.80, rely=0.56, width=42, height=25)
-        self.btnMenu.bind("<Button-1>", self.Abrirmenu)
-        Tooltip(self.btnMenu,"Presione para ver carpeta de canciones")
+        self.lblMenu = tk.Label(self.ventana, image=self.menu, bg="#FFFFFF")
+        self.lblMenu.place(relx=0.80, rely=0.56, width=42, height=25)
+        self.lblMenu.bind("<Button-1>", self.Abrirmenu)
+        Tooltip(self.lblMenu,"Presione para ver carpeta de canciones")
 
         self.btnHelp = tk.Label(self.ventana, image=self.help, bg="#FFFFFF")
         self.btnHelp.place(relx=1.0, rely=0.02, anchor="ne", width=40, height=40)
