@@ -22,6 +22,7 @@ class Reproductor():
         self.lblCargarCarpeta = tk.Label(self.ventanaMenu, image=self.carpeta, bg="#FFFFFF")
         self.lblCargarCarpeta.place(relx=0.5, rely=0.9, anchor="center", width=40, height=40)
         self.lblCargarCarpeta.bind("<Button-1>", self.cargarCarpetaCanciones)
+        Tooltip(self.lblCargarCarpeta, "Haz clic para cargar una carpeta de canciones")
 
         # Mantener la referencia de la imagen
         self.carpetaImg = self.carpeta 
