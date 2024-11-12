@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 import pygame.mixer as mx
 from tkinter import filedialog
+from Tooltip import Tooltip
 
 class Reproductor():
 
@@ -31,24 +32,26 @@ class Reproductor():
         self.back2 = tk.PhotoImage(file=r"Reproductor/iconos/back2.png")
         self.menu = tk.PhotoImage(file=r"Reproductor/iconos/menu.png")
 
-        #Botones
-        self.btnPlay = tk.Button(self.ventana, image=self.play, bg="#FFFFFF")
+         #Botones
+        self.btnPlay = tk.Button(self.ventana, image=self.play)
         self.btnPlay.place(relx=0.5, rely=0.76, width=40, height=40, anchor="center")
+        Tooltip(self.btnPlay,"Presione para iniciar la cancion")
 
-        self.btnSkip = tk.Button(self.ventana, image=self.skip, bg="#FFFFFF")
+        self.btnSkip = tk.Button(self.ventana, image=self.skip)
         self.btnSkip.place(relx=0.60, rely=0.76, width=40, height=40, anchor="center")
+        Tooltip(self.btnSkip,"Presione para cambiar de cancion")
 
-        self.btnSkip2 = tk.Button(self.ventana, image=self.skip2, bg="#FFFFFF")
+        self.btnSkip2 = tk.Button(self.ventana, image=self.skip2)
         self.btnSkip2.place(relx=0.40, rely=0.76, width=40, height=40, anchor="center")
+        Tooltip(self.btnSkip2,"Presione para regresar la cancion")
 
-        self.btnBack2 = tk.Button(self.ventana, image=self.back2, bg="#FFFFFF")
+        self.btnBack2 = tk.Button(self.ventana, image=self.back2)
         self.btnBack2.place(relx=0.33, rely=0.76, width=40, height=40, anchor="center")
+        Tooltip(self.btnBack2,"Presione para regresar 10 segundos")
 
-        self.btnBack = tk.Button(self.ventana, image=self.back, bg="#FFFFFF")
+        self.btnBack = tk.Button(self.ventana, image=self.back)
         self.btnBack.place(relx=0.67, rely=0.76, width=40, height=40, anchor="center")
-
-        self.btnMenu = tk.Button(self.ventana, image=self.menu, bg="#FFFFFF")
-        self.btnMenu.place(relx=0.80, rely=0.56, width=42, height=25)
+        Tooltip(self.btnBack,"Presione para adelantar 10 segundos")
 
         # Barra de progreso 
         self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#555", bd=0, relief="flat")
