@@ -3,6 +3,7 @@ from tkinter import *
 import pygame.mixer as mx
 from tkinter import filedialog
 from Tooltip import Tooltip
+from tkinter import messagebox
 
 class Reproductor():
 
@@ -20,6 +21,10 @@ class Reproductor():
         if 20 <= x <= 184:
             self.Volumen.coords(self.volumenMarker, x - 5, 25 - 5, x + 5, 25 + 5)
             mx.music.set_volume(self.volumen)
+
+    def mostrarAyuda(self, event):
+        ayuda_texto = ("hola")
+        messagebox.showinfo("Ayuda", ayuda_texto)
 
     def __init__(self):
         mx.init()
@@ -80,6 +85,7 @@ class Reproductor():
 
         self.btnHelp = tk.Button(self.ventana, image=self.help)
         self.btnHelp.place(relx=1.0, rely=0.02, anchor="ne", width=40, height=40)
+        self.btnHelp.bind("<Button-1>", self.mostrarAyuda)
         Tooltip(self.btnHelp,"Presione para mirar ayuda")
 
         self.lblMute = tk.Label(self.ventana, image=self.mute, bg="#FFFFFF")
