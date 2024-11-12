@@ -43,7 +43,7 @@ class Reproductor():
 
         self.btnSkip2 = tk.Button(self.ventana, image=self.skip2)
         self.btnSkip2.place(relx=0.40, rely=0.76, width=40, height=40, anchor="center")
-        Tooltip(self.btnSkip2,"Presione para regresar la cancion")
+        Tooltip(self.btnSkip2,"Presione para cambiar la cancion")
 
         self.btnBack2 = tk.Button(self.ventana, image=self.back2)
         self.btnBack2.place(relx=0.33, rely=0.76, width=40, height=40, anchor="center")
@@ -55,6 +55,7 @@ class Reproductor():
 
         self.btnMenu = tk.Button(self.ventana, image=self.menu, bg="#FFFFFF")
         self.btnMenu.place(relx=0.80, rely=0.56, width=42, height=25)
+        Tooltip(self.btnMenu,"Presione para ver carpeta de canciones")
 
         # Barra de progreso 
         self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#555", bd=0, relief="flat")
