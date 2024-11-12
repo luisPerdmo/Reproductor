@@ -4,17 +4,35 @@ import pygame.mixer as mx
 from tkinter import filedialog
 from Tooltip import Tooltip
 from tkinter import messagebox
+import os 
 
 class Reproductor():
 
     def Abrirmenu(self, event):
-        ventanaMenu = tk.Toplevel(self.ventana)
-        ventanaMenu.title("Carpeta de Canciones")
-        ventanaMenu.config(width=400, height=300)
-        ventanaMenu.config(bg="black")
+        self.ventanaMenu = tk.Toplevel(self.ventana)
+        self.ventanaMenu.title("Carpeta de Canciones")
+        self.ventanaMenu.config(width=400, height=300)
+        self.ventanaMenu.config(bg="gray")
 
-        self.listaCancionesBox = Listbox(ventanaMenu, bg="#FFFFFF", width=43, height=17)
-        self.listaCancionesBox.place(relx=0.5, rely=0.5, anchor="center")  # Centrar el Listbox en la ventana
+        # Crear el Listbox dentro de la ventana del menú
+        self.listaCanciones = Listbox(self.ventanaMenu, bg="#FFFFFF", width=43, height=17)
+        self.listaCanciones.place(relx=0.5, rely=0.5, anchor="center")
+
+        # Botón para cargar la carpeta de canciones
+        self.btnCargarCarpeta = tk.Button(self.ventanaMenu, text="Cargar carpeta de canciones", command=self.cargarCarpetaCanciones)
+        self.btnCargarCarpeta.place(relx=0.5, rely=0.9, anchor="center")
+    
+    # Actualizar la lista de canciones en el Listbox
+    def actualizarListaCanciones(self, event):
+        self.listaCanciones.delete(0, tk.END)  
+        for cancion in self.listaCanciones:
+            self.listaCanciones.insert(tk.END, cancion)
+
+    def cargarCarpetaCanciones(self):
+        self.carpeta = filedialog.askdirectory()
+        if self.carpeta: 
+            self.listaCanciones = [f for f in os.listdir(self.carpeta) if f.endswith('.mp3')]
+            self.actualizarListaCanciones()
 
     def moverVolumen(self, event):
         x = event.x
