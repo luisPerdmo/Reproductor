@@ -41,11 +41,30 @@ class Reproductor():
             self.actualizarListaCanciones()
 
     def moverVolumen(self, event):
-        x = event.x
-        if 20 <= x <= 184:
-            self.Volumen.coords(self.volumenMarker, x - 5, 25 - 5, x + 5, 25 + 5)
-            mx.music.set_volume(self.volumen)
+        if 20 <= event.x <= 184:  
+            self.Volumen.coords(self.volumenMarker, event.x - 5, 25 - 5, event.x + 5, 25 + 5) 
+            self.posicionVolumen = event.x 
+            nuevoVolumen = (self.posicionVolumen - 20) / 180 
+            self.volumen = max(0, min(1, nuevoVolumen)) 
+            mx.music.set_volume(self.volumen) 
 
+    #Reproducir la canción seleccionada
+    def play(self):
+         if self.listaCanciones:
+            cancion = os.path.join(self.carpeta, self.listaCanciones[0]) 
+            mx.music.load(cancion)
+            mx.music.play()
+            self.cancionActual = cancion
+            self.btnPlay.config(image=self.pause)  
+            print(f"Reproduciendo: {cancion}")
+
+    #Pausa la cancion
+    def pausa(self):
+        mx.music.pause()
+        self.btnPlay.config(image=self.play)  
+        print("Canción pausada.")
+
+    #Muestra la ayuda 
     def mostrarAyuda(self, event):
         ayuda_texto = ("hola")
         messagebox.showinfo("Ayuda", ayuda_texto)
@@ -62,6 +81,7 @@ class Reproductor():
         self.listaCanciones = []#lista de canciones
         self.cancionActual = None
         self.volumen = 0.5  # Volumen inicial
+        self.posicionVolumen = 20
 
         #frame
         self.frameBorde = tk.Frame(self.ventana, bd=5, relief="ridge", bg="black")
@@ -83,7 +103,7 @@ class Reproductor():
         self.carpeta = tk.PhotoImage(file=r"Reproductor/iconos/solidmusic.png")
 
         #Botones
-        self.btnPlay = tk.Button(self.ventana, image=self.play)
+        self.btnPlay = tk.Button(self.ventana, image=self.play, command=self.play)
         self.btnPlay.place(relx=0.5, rely=0.76, width=40, height=40, anchor="center")
         Tooltip(self.btnPlay,"Presione para iniciar la cancion")
 
@@ -129,11 +149,8 @@ class Reproductor():
         self.Volumen = tk.Canvas(self.ventana, width=190, height=50, bg="#FFFFFF", highlightthickness=0)
         self.Volumen.place(relx=0.49, rely=0.84, anchor="center")
         self.Volumen.create_line(20, 25, 200, 25, fill="#333", width=1)
-        self.volumenMarker = self.Volumen.create_oval(20 - 5, 25 - 5, 20 + 5, 25 + 5, fill="black")
+        self.volumenMarker = self.Volumen.create_oval(self.posicionVolumen - 5, 25 - 5, self.posicionVolumen + 5, 25 + 5, fill="black")
         self.Volumen.bind("<B1-Motion>", self.moverVolumen)
-
-        
-       
         
 
         self.ventana.mainloop()
