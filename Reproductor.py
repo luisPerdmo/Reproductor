@@ -10,13 +10,16 @@ class Reproductor():
         ventanaMenu = tk.Toplevel(self.ventana)
         ventanaMenu.title("Carpeta de Canciones")
         ventanaMenu.config(width=400, height=300)
+        ventanaMenu.config(bg="black")
+
+        self.listaCancionesBox = Listbox(ventanaMenu, bg="#FFFFFF", width=43, height=17)
+        self.listaCancionesBox.place(relx=0.5, rely=0.5, anchor="center")  # Centrar el Listbox en la ventana
 
     def moverVolumen(self, event):
         x = event.x
         if 20 <= x <= 184:
             self.Volumen.coords(self.volumenMarker, x - 5, 25 - 5, x + 5, 25 + 5)
             mx.music.set_volume(self.volumen)
-
 
     def __init__(self):
         mx.init()
