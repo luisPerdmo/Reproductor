@@ -16,8 +16,8 @@ class Reproductor():
         self.ventana.resizable(0,0)
 
         # Variables de control
-        self.listaCanciones=[]#lista de canciones
-        self.cancionActual=None
+        self.listaCanciones = []#lista de canciones
+        self.cancionActual = None
 
         #frame
         self.frameBorde = tk.Frame(self.ventana, bd=5, relief="ridge", bg="black")
