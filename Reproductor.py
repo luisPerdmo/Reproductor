@@ -83,7 +83,7 @@ class Reproductor():
         self.btnMenu.bind("<Button-1>", self.Abrirmenu)
         Tooltip(self.btnMenu,"Presione para ver carpeta de canciones")
 
-        self.btnHelp = tk.Button(self.ventana, image=self.help, bg="#FFFFFF")
+        self.btnHelp = tk.Label(self.ventana, image=self.help, bg="#FFFFFF")
         self.btnHelp.place(relx=1.0, rely=0.02, anchor="ne", width=40, height=40)
         self.btnHelp.bind("<Button-1>", self.mostrarAyuda)
         Tooltip(self.btnHelp,"Presione para mirar ayuda")
