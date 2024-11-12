@@ -7,9 +7,9 @@ from Tooltip import Tooltip
 class Reproductor():
 
     def Abrirmenu(self, event):
-        ventana_menu = tk.Toplevel(self.ventana)
-        ventana_menu.title("Carpeta de Canciones")
-        ventana_menu.config(width=400, height=300)
+        ventanaMenu = tk.Toplevel(self.ventana)
+        ventanaMenu.title("Carpeta de Canciones")
+        ventanaMenu.config(width=400, height=300)
 
     def __init__(self):
         mx.init()
@@ -38,7 +38,7 @@ class Reproductor():
         self.back2 = tk.PhotoImage(file=r"Reproductor/iconos/back2.png")
         self.menu = tk.PhotoImage(file=r"Reproductor/iconos/menu.png")
 
-         #Botones
+        #Botones
         self.btnPlay = tk.Button(self.ventana, image=self.play)
         self.btnPlay.place(relx=0.5, rely=0.76, width=40, height=40, anchor="center")
         Tooltip(self.btnPlay,"Presione para iniciar la cancion")
