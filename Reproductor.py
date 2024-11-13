@@ -136,24 +136,24 @@ class Reproductor():
         self.carpeta1 = tk.PhotoImage(file=r"Reproductor/iconos/solidmusic.png")
 
         #Botones
-        self.btnPlay = tk.Button(self.ventana, image=self.play1)
+        self.btnPlay = tk.Label(self.ventana, image=self.play1, bg="#FFFFFF")
         self.btnPlay.place(relx=0.5, rely=0.76, width=40, height=40, anchor="center")
         self.btnPlay.bind("<Button-1>", self.play)
         Tooltip(self.btnPlay,"Presione para iniciar la cancion")
 
-        self.btnSkip = tk.Button(self.ventana, image=self.skip)
+        self.btnSkip = tk.Label(self.ventana, image=self.skip, bg="#FFFFFF")
         self.btnSkip.place(relx=0.60, rely=0.76, width=40, height=40, anchor="center")
         Tooltip(self.btnSkip,"Presione para cambiar de cancion")
 
-        self.btnSkip2 = tk.Button(self.ventana, image=self.skip2)
+        self.btnSkip2 = tk.Label(self.ventana, image=self.skip2, bg="#FFFFFF")
         self.btnSkip2.place(relx=0.40, rely=0.76, width=40, height=40, anchor="center")
         Tooltip(self.btnSkip2,"Presione para cambiar la cancion")
 
-        self.btnBack2 = tk.Button(self.ventana, image=self.back2)
+        self.btnBack2 = tk.Label(self.ventana, image=self.back2, bg="#FFFFFF")
         self.btnBack2.place(relx=0.33, rely=0.76, width=40, height=40, anchor="center")
         Tooltip(self.btnBack2,"Presione para regresar 10 segundos")
 
-        self.btnBack = tk.Button(self.ventana, image=self.back)
+        self.btnBack = tk.Label(self.ventana, image=self.back, bg="#FFFFFF")
         self.btnBack.place(relx=0.67, rely=0.76, width=40, height=40, anchor="center")
         Tooltip(self.btnBack,"Presione para adelantar 10 segundos")
 
