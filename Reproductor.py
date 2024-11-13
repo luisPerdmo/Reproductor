@@ -69,7 +69,9 @@ class Reproductor():
                     posicion = mx.music.get_pos()  
                     mx.music.unpause()  
                     self.btnPlay.config(image=self.pause) 
-                    self.tiempoGuardado = posicion / 1000 
+                    self.tiempoGuardado = posicion / 1000
+        else:            
+            messagebox.showerror("Advertencia!", "No Ha Puesto La Canción...")
 
     def actualizarProgreso(self):
         if self.cancionActual:
