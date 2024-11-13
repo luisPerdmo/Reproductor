@@ -20,13 +20,10 @@ class Reproductor():
         self.listaCanciones.place(relx=0.5, rely=0.5, anchor="center")
 
         # Botón para cargar la carpeta de canciones
-        self.lblCargarCarpeta = tk.Label(self.ventanaMenu, image=self.carpeta, bg="#FFFFFF")
+        self.lblCargarCarpeta = tk.Label(self.ventanaMenu, image=self.carpeta1, bg="#FFFFFF")
         self.lblCargarCarpeta.place(relx=0.5, rely=0.9, anchor="center", width=40, height=40)
         self.lblCargarCarpeta.bind("<Button-1>", self.cargarCarpetaCanciones)
         Tooltip(self.lblCargarCarpeta, "Haz clic para cargar una carpeta de canciones")
-
-        # Mantener la referencia de la imagen
-        self.carpetaImg = self.carpeta 
 
     # Método para actualizar el Listbox con los nombres de las canciones
     def actualizarListaCanciones(self):
@@ -110,7 +107,7 @@ class Reproductor():
         self.mute = tk.PhotoImage(file=r"Reproductor/iconos/volume-mute.png")
         self.volume = tk.PhotoImage(file=r"Reproductor/iconos/volume.png")
         self.help = tk.PhotoImage(file=r"Reproductor/iconos/help.png")
-        self.carpeta = tk.PhotoImage(file=r"Reproductor/iconos/solidmusic.png")
+        self.carpeta1 = tk.PhotoImage(file=r"Reproductor/iconos/solidmusic.png")
 
         #Botones
         self.btnPlay = tk.Button(self.ventana, image=self.play1)
