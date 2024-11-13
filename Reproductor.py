@@ -155,12 +155,12 @@ class Reproductor():
         self.lblVolumen = tk.Label(self.ventana, image=self.volume, bg="#FFFFFF")
         self.lblVolumen.place(relx=0.66, rely=0.84, width=20, height=20, anchor="center")
 
-        # Barra de progreso 
-        self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#000000", bd=0, relief="flat")
+        #Barra de progreso 
+        self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#C6C6C6", bd=0, relief="flat")
         self.barra.place(relx=0.14, rely=0.67)
-        self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#FC0000", outline="") 
+        self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#000000", outline="") 
 
-        #Crear un Canvas para el control de volumen
+        #control de volumen
         self.Volumen = tk.Canvas(self.ventana, width=190, height=50, bg="#FFFFFF", highlightthickness=0)
         self.Volumen.place(relx=0.49, rely=0.84, anchor="center")
         self.Volumen.create_line(20, 25, 200, 25, fill="#333", width=1)
