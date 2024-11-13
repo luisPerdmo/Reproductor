@@ -57,7 +57,10 @@ class Reproductor():
                 self.cancionActual = cancion  
                 self.btnPlay.config(image=self.pause)
                 self.duracionTotal = self.obtenerDuracionCancion(cancion) 
+                self.tiempoGuardado = 0 
                 self.actualizarProgreso()
+                nombreCancion = self.archivosCanciones[indice]
+                self.lblNombreCancion.config(text=nombreCancion)
             else:  
                 if mx.music.get_busy(): 
                     mx.music.pause() 
@@ -66,12 +69,25 @@ class Reproductor():
                     posicion = mx.music.get_pos()  
                     mx.music.unpause()  
                     self.btnPlay.config(image=self.pause) 
+                    self.tiempoGuardado = posicion / 1000 
 
     def actualizarProgreso(self):
-        if self.cancionActual and mx.music.get_busy():
-            tiempoTranscurrido = mx.music.get_pos() / 1000
-            progreso = tiempoTranscurrido / self.duracionTotal
+        if self.cancionActual:
+            if mx.music.get_busy():
+                tiempoTranscurrido = mx.music.get_pos() / 1000
+                self.tiempoGuardado = tiempoTranscurrido  
+            else:
+                tiempoTranscurrido = self.tiempoGuardado
+            progreso = tiempoTranscurrido / self.duracionTotal 
             self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 20))
+            minutosTranscurridos = int(tiempoTranscurrido // 60)
+            segundosTranscurridos = int(tiempoTranscurrido % 60)
+            tiempoTranscurridoStr = f"{minutosTranscurridos:02}:{segundosTranscurridos:02}"
+            minutosTotal = int(self.duracionTotal // 60)
+            segundosTotal = int(self.duracionTotal % 60)
+            duracionTotalStr = f"{minutosTotal:02}:{segundosTotal:02}"
+            self.lblTiempoTranscurrido.config(text=tiempoTranscurridoStr)
+            self.lblDuracionTotal.config(text=duracionTotalStr)
             self.ventana.after(100, self.actualizarProgreso)
     
     def obtenerDuracionCancion(self, cancion):
@@ -159,6 +175,16 @@ class Reproductor():
         self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#C6C6C6", bd=0, relief="flat")
         self.barra.place(relx=0.14, rely=0.67)
         self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#000000", outline="") 
+
+        #tiempo transcurrido y la duración total
+        self.lblTiempoTranscurrido = tk.Label(self.ventana, text="00:00", bg="#FFFFFF", font=("Helvetica", 10))
+        self.lblTiempoTranscurrido.place(relx=0.15, rely=0.64)
+        self.lblDuracionTotal = tk.Label(self.ventana, text="00:00", bg="#FFFFFF", font=("Helvetica", 10))
+        self.lblDuracionTotal.place(relx=0.82, rely=0.64)
+
+        #Nombre de la cancion 
+        self.lblNombreCancion = tk.Label(self.ventana, text="", bg="#FFFFFF", font=("Helvetica", 12))
+        self.lblNombreCancion.place(relx=0.5, rely=0.60, anchor="center")
 
         #control de volumen
         self.Volumen = tk.Canvas(self.ventana, width=190, height=50, bg="#FFFFFF", highlightthickness=0)
