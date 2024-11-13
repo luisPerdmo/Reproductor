@@ -12,6 +12,7 @@ class Reproductor():
         self.ventanaMenu = tk.Toplevel(self.ventana)
         self.ventanaMenu.title("Carpeta de Canciones")
         self.ventanaMenu.config(width=400, height=300)
+        self.ventanaMenu.resizable(0,0)
         self.ventanaMenu.config(bg="gray")
 
         # Crear el Listbox dentro de la ventana del menú
@@ -53,8 +54,7 @@ class Reproductor():
         if self.listaCanciones.curselection(): 
             indice = self.listaCanciones.curselection()[0] 
             cancion = os.path.join(self.carpeta, self.archivosCanciones[indice])
-            if self.cancionActual != cancion:  #
-              
+            if self.cancionActual != cancion:  
                 mx.music.load(cancion)
                 mx.music.play()
                 self.cancionActual = cancion  
