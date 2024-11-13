@@ -27,17 +27,17 @@ class Reproductor():
         # Mantener la referencia de la imagen
         self.carpetaImg = self.carpeta 
 
-    
-    # Actualizar la lista de canciones en el Listbox
+    # Método para actualizar el Listbox con los nombres de las canciones
     def actualizarListaCanciones(self):
         self.listaCanciones.delete(0, tk.END)  
-        for cancion in self.listaCanciones:
-            self.listaCanciones.insert(tk.END, cancion)
+        for cancion in self.archivosCanciones:
+            self.listaCanciones.insert(tk.END, cancion) 
 
+    # Método para cargar la carpeta de canciones
     def cargarCarpetaCanciones(self, event):
         self.carpeta = filedialog.askdirectory()
-        if self.carpeta: 
-            self.listaCanciones = [f for f in os.listdir(self.carpeta) if f.endswith('.mp3')]
+        if self.carpeta:
+            self.archivosCanciones = [f for f in os.listdir(self.carpeta) if f.endswith('.mp3')]
             self.actualizarListaCanciones()
 
     def moverVolumen(self, event):
@@ -48,16 +48,18 @@ class Reproductor():
             self.volumen = max(0, min(1, nuevoVolumen)) 
             mx.music.set_volume(self.volumen) 
 
-    #Reproducir la canción seleccionada
-    def play(self):
-         if self.listaCanciones:
-            cancion = os.path.join(self.carpeta, self.listaCanciones[0]) 
+    # Método para reproducir la canción seleccionada
+    def play(self, event):
+        if self.listaCanciones.curselection():  
+            indice = self.listaCanciones.curselection()[0]  
+            cancion = os.path.join(self.carpeta, self.archivosCanciones[indice])
+            # Cargar y reproducir la canción
             mx.music.load(cancion)
             mx.music.play()
+            # Actualizar la interfaz
             self.cancionActual = cancion
-            self.btnPlay.config(image=self.pause)  
-            print(f"Reproduciendo: {cancion}")
-
+            self.btnPlay.config(image=self.pause)
+    
     #Pausa la cancion
     def pausa(self):
         mx.music.pause()
@@ -90,7 +92,7 @@ class Reproductor():
         self.frame.place(width=490, height=230)
 
         #Iconos 
-        self.play = tk.PhotoImage(file=r"Reproductor/iconos/play.png")
+        self.play1 = tk.PhotoImage(file=r"Reproductor/iconos/play.png")
         self.pause = tk.PhotoImage(file=r"Reproductor/iconos/pause.png")
         self.skip2 = tk.PhotoImage(file=r"Reproductor/iconos/play-skip2.png")
         self.skip = tk.PhotoImage(file=r"Reproductor/iconos/play-skip.png")
@@ -103,8 +105,9 @@ class Reproductor():
         self.carpeta = tk.PhotoImage(file=r"Reproductor/iconos/solidmusic.png")
 
         #Botones
-        self.btnPlay = tk.Button(self.ventana, image=self.play, command=self.play)
+        self.btnPlay = tk.Button(self.ventana, image=self.play1)
         self.btnPlay.place(relx=0.5, rely=0.76, width=40, height=40, anchor="center")
+        self.btnPlay.bind("<Button-1>", self.play)
         Tooltip(self.btnPlay,"Presione para iniciar la cancion")
 
         self.btnSkip = tk.Button(self.ventana, image=self.skip)
