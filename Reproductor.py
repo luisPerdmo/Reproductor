@@ -55,7 +55,9 @@ class Reproductor():
                 mx.music.load(cancion)
                 mx.music.play()
                 self.cancionActual = cancion  
-                self.btnPlay.config(image=self.pause) 
+                self.btnPlay.config(image=self.pause)
+                self.duracionTotal = self.obtenerDuracionCancion(cancion) 
+                self.actualizarProgreso()
             else:  
                 if mx.music.get_busy(): 
                     mx.music.pause() 
@@ -63,13 +65,18 @@ class Reproductor():
                 else: 
                     posicion = mx.music.get_pos()  
                     mx.music.unpause()  
-                    self.btnPlay.config(image=self.pause)  
+                    self.btnPlay.config(image=self.pause) 
 
-    #Pausa la cancion
-    def pausa(self):
-        mx.music.pause()
-        self.btnPlay.config(image=self.play)  
-        print("Canción pausada.")
+    def actualizarProgreso(self):
+        if self.cancionActual and mx.music.get_busy():
+            tiempoTranscurrido = mx.music.get_pos() / 1000
+            progreso = tiempoTranscurrido / self.duracionTotal
+            self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 20))
+            self.ventana.after(100, self.actualizarProgreso)
+    
+    def obtenerDuracionCancion(self, cancion):
+        sound = mx.Sound(cancion)
+        return sound.get_length()
 
     #Muestra la ayuda 
     def mostrarAyuda(self, event):
@@ -89,6 +96,7 @@ class Reproductor():
         self.cancionActual = None
         self.volumen = 0.5  # Volumen inicial
         self.posicionVolumen = 20
+        self.duracionTotal = 0  # Duración total de la canción
 
         #frame
         self.frameBorde = tk.Frame(self.ventana, bd=5, relief="ridge", bg="black")
@@ -148,10 +156,9 @@ class Reproductor():
         self.lblVolumen.place(relx=0.66, rely=0.84, width=20, height=20, anchor="center")
 
         # Barra de progreso 
-        self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#555", bd=0, relief="flat")
+        self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#000000", bd=0, relief="flat")
         self.barra.place(relx=0.14, rely=0.67)
-        self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#1db954", outline="") 
-        self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#1db954", outline="")
+        self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#FC0000", outline="") 
 
         #Crear un Canvas para el control de volumen
         self.Volumen = tk.Canvas(self.ventana, width=190, height=50, bg="#FFFFFF", highlightthickness=0)
