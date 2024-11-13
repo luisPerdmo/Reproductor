@@ -49,17 +49,25 @@ class Reproductor():
             mx.music.set_volume(self.volumen) 
 
     # Método para reproducir la canción seleccionada
-    def play(self, event):
-        if self.listaCanciones.curselection():  
-            indice = self.listaCanciones.curselection()[0]  
+    def play(self, event):    
+        if self.listaCanciones.curselection(): 
+            indice = self.listaCanciones.curselection()[0] 
             cancion = os.path.join(self.carpeta, self.archivosCanciones[indice])
-            # Cargar y reproducir la canción
-            mx.music.load(cancion)
-            mx.music.play()
-            # Actualizar la interfaz
-            self.cancionActual = cancion
-            self.btnPlay.config(image=self.pause)
-    
+            if self.cancionActual != cancion:  #
+              
+                mx.music.load(cancion)
+                mx.music.play()
+                self.cancionActual = cancion  
+                self.btnPlay.config(image=self.pause) 
+            else:  
+                if mx.music.get_busy(): 
+                    mx.music.pause() 
+                    self.btnPlay.config(image=self.play1) 
+                else: 
+                    posicion = mx.music.get_pos()  
+                    mx.music.unpause()  
+                    self.btnPlay.config(image=self.pause)  
+
     #Pausa la cancion
     def pausa(self):
         mx.music.pause()
