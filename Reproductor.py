@@ -46,6 +46,28 @@ class Reproductor():
             self.volumen = max(0, min(1, nuevoVolumen)) 
             mx.music.set_volume(self.volumen) 
 
+    def cambiarCancionSiguiente(self, event):
+        if self.archivosCanciones:
+            actual = self.listaCanciones.curselection()
+            if not actual:
+                return     
+            actual = actual[0]
+            siguiente = (actual + 1) % len(self.archivosCanciones)
+            self.listaCanciones.selection_clear(0, tk.END)
+            self.listaCanciones.selection_set(siguiente)
+            self.play(event)
+
+    def cambiarCancionAnterior(self, event):
+        if self.archivosCanciones:
+            caActual = self.listaCanciones.curselection()
+            if not caActual:
+                return
+            caActual = caActual[0]
+            caAnterior = (caActual - 1) % len(self.archivosCanciones)
+            self.listaCanciones.selection_clear(0, tk.END)
+            self.listaCanciones.selection_set(caAnterior)
+            self.play(event)
+
     # Método para reproducir la canción seleccionada
     def play(self, event):    
         if self.listaCanciones.curselection(): 
@@ -143,10 +165,12 @@ class Reproductor():
 
         self.btnSkip = tk.Label(self.ventana, image=self.skip, bg="#FFFFFF")
         self.btnSkip.place(relx=0.60, rely=0.76, width=40, height=40, anchor="center")
+        self.btnSkip.bind("<Button-1>", self.cambiarCancionSiguiente)
         Tooltip(self.btnSkip,"Presione para cambiar de cancion")
 
         self.btnSkip2 = tk.Label(self.ventana, image=self.skip2, bg="#FFFFFF")
         self.btnSkip2.place(relx=0.40, rely=0.76, width=40, height=40, anchor="center")
+        self.btnSkip2.bind("<Button-1>", self.cambiarCancionAnterior)
         Tooltip(self.btnSkip2,"Presione para cambiar la cancion")
 
         self.btnBack2 = tk.Label(self.ventana, image=self.back2, bg="#FFFFFF")
