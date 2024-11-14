@@ -8,6 +8,12 @@ import os
 
 class Reproductor():
 
+    def avanzarCancion(self, event):
+        pass
+
+    def retrocederCancion(self, event):
+        pass
+
     def Abrirmenu(self, event):
         self.ventanaMenu = tk.Toplevel(self.ventana)
         self.ventanaMenu.title("Carpeta de Canciones")
@@ -120,7 +126,16 @@ class Reproductor():
 
     #Muestra la ayuda 
     def mostrarAyuda(self, event):
-        ayuda_texto = ("hola")
+        ayuda_texto = ("Bienvenido al Reproductor de Música.\n\n"
+        "Aquí están los atajos de teclado disponibles:\n\n"
+        "• Espacio (space): Reproducir/Pausar la canción actual.\n"
+        "• Flecha derecha (Right): Avanzar a la siguiente canción.\n"
+        "• Flecha izquierda (Left): Retroceder a la canción anterior.\n"
+        "• Ctrl + S: Siguiente canción.\n"
+        "• Ctrl + C: Canción anterior.\n"
+        "• Ctrl + M: Abrir el menú de canciones.\n"
+        "• F1: Mostrar esta ayuda.\n\n"
+        "¡Disfruta de la música!")
         messagebox.showinfo("Ayuda", ayuda_texto)
 
     def __init__(self):
@@ -218,6 +233,14 @@ class Reproductor():
         self.Volumen.create_line(20, 25, 200, 25, fill="#333", width=1)
         self.volumenMarker = self.Volumen.create_oval(self.posicionVolumen - 5, 25 - 5, self.posicionVolumen + 5, 25 + 5, fill="black")
         self.Volumen.bind("<B1-Motion>", self.moverVolumen)
-        
 
+        #Atajos 
+        self.ventana.bind("<space>", self.play)  
+        self.ventana.bind("<Right>", self.avanzarCancion)  
+        self.ventana.bind("<Left>", self.retrocederCancion) 
+        self.ventana.bind("<Control-s>", self.cambiarCancionSiguiente) 
+        self.ventana.bind("<Control-c>", self.cambiarCancionAnterior)
+        self.ventana.bind("<Control-m>", self.Abrirmenu)
+        self.ventana.bind("<F1>", self.mostrarAyuda)         
+  
         self.ventana.mainloop()
