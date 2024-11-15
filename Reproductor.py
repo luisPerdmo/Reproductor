@@ -8,18 +8,6 @@ import os
 
 class Reproductor():
 
-    def adelantar10Segundos(self, event):
-        if self.cancionActual and mx.music.get_busy():  
-            tiempoActual = mx.music.get_pos() / 1000  
-            nuevoTiempo = tiempoActual + 10         
-            if nuevoTiempo < self.duracionTotal:      
-                mx.music.set_pos(nuevoTiempo)       
-            else:
-                mx.music.stop()
-
-    def retrocederCancion(self, event):
-        pass
-
     def Abrirmenu(self, event):
         self.ventanaMenu = tk.Toplevel(self.ventana)
         self.ventanaMenu.title("Carpeta de Canciones")
@@ -200,7 +188,6 @@ class Reproductor():
 
         self.btnBack = tk.Label(self.ventana, image=self.back, bg="#FFFFFF")
         self.btnBack.place(relx=0.67, rely=0.76, width=40, height=40, anchor="center")
-        self.btnBack.bind("<Button-1>", self.adelantar10Segundos)
         Tooltip(self.btnBack,"Presione para adelantar 10 segundos")
 
         self.lblMenu = tk.Label(self.ventana, image=self.menu, bg="#FFFFFF")
@@ -243,8 +230,6 @@ class Reproductor():
 
         #Atajos 
         self.ventana.bind("<space>", self.play)  
-        self.ventana.bind("<Right>", self.adelantar10Segundos)  
-        self.ventana.bind("<Left>", self.retrocederCancion) 
         self.ventana.bind("<Control-s>", self.cambiarCancionSiguiente) 
         self.ventana.bind("<Control-c>", self.cambiarCancionAnterior)
         self.ventana.bind("<Control-m>", self.Abrirmenu)
