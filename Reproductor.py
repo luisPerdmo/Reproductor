@@ -5,8 +5,17 @@ from tkinter import filedialog
 from Tooltip import Tooltip
 from tkinter import messagebox
 import os 
+import random
 
 class Reproductor():
+
+    def animarSondas(self):
+        if mx.music.get_busy(): 
+            for i, sonda in enumerate(self.sondas):
+                altura = random.randint(50, 200) 
+                if self.canvasSondas.coords(sonda)[1] != 200 - altura:
+                    self.canvasSondas.coords(sonda, i * 60, 200 - altura, (i * 60) + 50, 200)
+            self.frame.after(100, self.animarSondas) 
 
     def Abrirmenu(self, event):
         self.ventanaMenu = tk.Toplevel(self.ventana)
@@ -83,15 +92,18 @@ class Reproductor():
                 self.actualizarProgreso()
                 nombreCancion = self.archivosCanciones[indice]
                 self.lblNombreCancion.config(text=nombreCancion)
+                self.animarSondas()
             else:  
                 if mx.music.get_busy(): 
                     mx.music.pause() 
                     self.btnPlay.config(image=self.play1) 
+                    self.animarSondas()
                 else: 
                     posicion = mx.music.get_pos()  
                     mx.music.unpause()  
                     self.btnPlay.config(image=self.pause) 
                     self.tiempoGuardado = posicion / 1000
+                    self.animarSondas()
         else:            
             messagebox.showerror("Advertencia!", "No Ha Puesto La Canción...")
 
@@ -146,6 +158,7 @@ class Reproductor():
         self.volumen = 0.5  # Volumen inicial
         self.posicionVolumen = 20
         self.duracionTotal = 0  # Duración total de la canción
+        self.sondas = []
 
         #frame
         self.frameBorde = tk.Frame(self.ventana, bd=5, relief="ridge", bg="black")
@@ -216,6 +229,11 @@ class Reproductor():
         self.lblTiempoTranscurrido.place(relx=0.15, rely=0.64)
         self.lblDuracionTotal = tk.Label(self.ventana, text="00:00", bg="#FFFFFF", font=("Helvetica", 10))
         self.lblDuracionTotal.place(relx=0.82, rely=0.64)
+
+        #sondas
+        self.canvasSondas = tk.Canvas(self.frame, bg="#FFFFFF", height=225, width=490)
+        self.canvasSondas.place(x=0, y=0)
+        self.sondas = [self.canvasSondas.create_rectangle(i * 60, 150, (i * 60) + 50, 200, fill="black", outline="black") for i in range(8)]
 
         #Nombre de la cancion 
         self.lblNombreCancion = tk.Label(self.ventana, text="", bg="#FFFFFF", font=("Helvetica", 12))
