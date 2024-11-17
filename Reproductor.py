@@ -9,6 +9,31 @@ import random
 
 class Reproductor():
 
+    def adelantar10Segundos(self, event):
+        if self.cancionActual:
+            new_position = self.tiempoGuardado + 10  
+            if new_position > self.duracionTotal:
+                new_position = self.duracionTotal  
+            self.tiempoGuardado = new_position  
+
+            if mx.music.get_busy(): 
+                self.play(event)
+            else:
+                mx.music.set_pos(self.tiempoGuardado)
+
+    def retroceder10Segundos(self, event):
+        if self.cancionActual:
+            new_position = self.tiempoGuardado - 10  
+            if new_position > self.duracionTotal:
+                new_position = 0 
+                new_position = self.duracionTotal  
+            self.tiempoGuardado = new_position  
+
+            if mx.music.get_busy(): 
+                self.play(event)
+            else:
+                mx.music.set_pos(self.tiempoGuardado)
+
     def animarSondas(self):
         if mx.music.get_busy():
             for i, sonda in enumerate(self.sondas):
@@ -201,10 +226,12 @@ class Reproductor():
 
         self.btnBack2 = tk.Label(self.ventana, image=self.back2, bg="#FFFFFF")
         self.btnBack2.place(relx=0.33, rely=0.76, width=40, height=40, anchor="center")
+        self.btnBack2.bind("<Button-1>", self.retroceder10Segundos)
         Tooltip(self.btnBack2,"Presione para regresar 10 segundos")
 
         self.btnBack = tk.Label(self.ventana, image=self.back, bg="#FFFFFF")
         self.btnBack.place(relx=0.67, rely=0.76, width=40, height=40, anchor="center")
+        self.btnBack.bind("<Button-1>", self.adelantar10Segundos)
         Tooltip(self.btnBack,"Presione para adelantar 10 segundos")
 
         self.lblMenu = tk.Label(self.ventana, image=self.menu, bg="#FFFFFF")
@@ -257,7 +284,9 @@ class Reproductor():
         self.ventana.bind("<space>", self.play)  
         self.ventana.bind("<Control-s>", self.cambiarCancionSiguiente) 
         self.ventana.bind("<Control-c>", self.cambiarCancionAnterior)
+        self.ventana.bind("<Right>", self.adelantar10Segundos)
+        self.ventana.bind("<Left>", self.retroceder10Segundos)
         self.ventana.bind("<Control-m>", self.Abrirmenu)
-        self.ventana.bind("<F1>", self.mostrarAyuda)         
-  
+        self.ventana.bind("<F1>", self.mostrarAyuda)    
+            
         self.ventana.mainloop()
