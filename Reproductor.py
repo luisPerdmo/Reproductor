@@ -18,7 +18,7 @@ class Reproductor():
                 y1 = self.sondaBase - altura  
                 y2 = self.sondaBase
                 self.canvasSondas.coords(sonda, x1, y1, x2, y2)  
-            self.frame.after(100, self.animarSondas)
+            self.frame.after(120, self.animarSondas)
 
     def Abrirmenu(self, event):
         self.ventanaMenu = tk.Toplevel(self.ventana)
