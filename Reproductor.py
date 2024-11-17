@@ -79,7 +79,7 @@ class Reproductor():
 
     # Método para reproducir la canción seleccionada
     def play(self, event):    
-        if self.listaCanciones.curselection(): 
+        if isinstance(self.listaCanciones, tk.Listbox) and self.listaCanciones.curselection():
             indice = self.listaCanciones.curselection()[0] 
             cancion = os.path.join(self.carpeta, self.archivosCanciones[indice])
             if self.cancionActual != cancion:  
@@ -105,7 +105,7 @@ class Reproductor():
                     self.tiempoGuardado = posicion / 1000
                     self.animarSondas()
         else:            
-            messagebox.showerror("Advertencia!", "No Ha Puesto La Canción...")
+            messagebox.showinfo("Advertencia!", "No ha seleccionado una lista de canciones...")
 
     def actualizarProgreso(self):
         if self.cancionActual:
