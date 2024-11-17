@@ -162,6 +162,7 @@ class Reproductor():
         self.posicionVolumen = 20
         self.duracionTotal = 0  # Duración total de la canción
         self.sondas = []
+        self.archivosCanciones = []
 
         #frame
         self.frameBorde = tk.Frame(self.ventana, bd=5, relief="ridge", bg="black")
