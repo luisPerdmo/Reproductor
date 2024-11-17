@@ -10,12 +10,15 @@ import random
 class Reproductor():
 
     def animarSondas(self):
-        if mx.music.get_busy(): 
+        if mx.music.get_busy():
             for i, sonda in enumerate(self.sondas):
-                altura = random.randint(50, 200) 
-                if self.canvasSondas.coords(sonda)[1] != 200 - altura:
-                    self.canvasSondas.coords(sonda, i * 60, 200 - altura, (i * 60) + 50, 200)
-            self.frame.after(100, self.animarSondas) 
+                altura = random.randint(50, 200)  
+                x1 = i * self.sondaAncho
+                x2 = (i + 1) * self.sondaAncho
+                y1 = self.sondaBase - altura  
+                y2 = self.sondaBase
+                self.canvasSondas.coords(sonda, x1, y1, x2, y2)  
+            self.frame.after(100, self.animarSondas)
 
     def Abrirmenu(self, event):
         self.ventanaMenu = tk.Toplevel(self.ventana)
@@ -231,9 +234,12 @@ class Reproductor():
         self.lblDuracionTotal.place(relx=0.82, rely=0.64)
 
         #sondas
+        self.numSondas = 15 
+        self.sondaAncho = 487 / self.numSondas  
+        self.sondaBase = 230
         self.canvasSondas = tk.Canvas(self.frame, bg="#FFFFFF", height=225, width=490)
         self.canvasSondas.place(x=0, y=0)
-        self.sondas = [self.canvasSondas.create_rectangle(i * 60, 150, (i * 60) + 50, 200, fill="black", outline="black") for i in range(8)]
+        self.sondas = [ self.canvasSondas.create_rectangle( i * self.sondaAncho, self.sondaBase - 50, (i + 1) * self.sondaAncho, self.sondaBase, fill="black", outline="#FFFFFF") for i in range(self.numSondas)]
 
         #Nombre de la cancion 
         self.lblNombreCancion = tk.Label(self.ventana, text="", bg="#FFFFFF", font=("Helvetica", 12))
