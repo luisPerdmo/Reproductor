@@ -163,18 +163,17 @@ class Reproductor():
 
     #Muestra la ayuda 
     def mostrarAyuda(self, event):
-        ayuda_texto = ("Bienvenido al Reproductor de Música.\n\n"
+        messagebox.showinfo("Ayuda", "Bienvenido al Reproductor de Música.\n\n"
         "Aquí están los atajos de teclado disponibles:\n\n"
         "• Espacio (space): Reproducir/Pausar la canción actual.\n"
-        "• Flecha derecha (Right): Avanzar a la siguiente canción.\n"
-        "• Flecha izquierda (Left): Retroceder a la canción anterior.\n"
+        "• Flecha derecha (Right): Avanzar 10 segundos la canción.\n"
+        "• Flecha izquierda (Left): Retroceder 10 segundos la canción.\n"
         "• Ctrl + S: Siguiente canción.\n"
         "• Ctrl + C: Canción anterior.\n"
         "• Ctrl + M: Abrir el menú de canciones.\n"
-        "•Ctrl + o: Seleccionar carpeta de canciones.\n"
+        "• Ctrl + O: Seleccionar carpeta de canciones.\n"
         "• F1: Mostrar esta ayuda.\n\n"
         "¡Disfruta de la música!")
-        messagebox.showinfo("Ayuda", ayuda_texto)
 
     def __init__(self):
         mx.init()
