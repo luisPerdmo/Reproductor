@@ -62,6 +62,9 @@ class Reproductor():
         self.lblCargarCarpeta.bind("<Button-1>", self.cargarCarpetaCanciones)
         Tooltip(self.lblCargarCarpeta, "Haz clic para cargar una carpeta de canciones")
 
+        #atajo de ventana menu
+        self.ventanaMenu.bind("<Control-o>", self.cargarCarpetaCanciones)
+
     # Método para actualizar el Listbox con los nombres de las canciones
     def actualizarListaCanciones(self):
         self.listaCanciones.delete(0, tk.END)  
@@ -168,6 +171,7 @@ class Reproductor():
         "• Ctrl + S: Siguiente canción.\n"
         "• Ctrl + C: Canción anterior.\n"
         "• Ctrl + M: Abrir el menú de canciones.\n"
+        "•Ctrl + o: Seleccionar carpeta de canciones.\n"
         "• F1: Mostrar esta ayuda.\n\n"
         "¡Disfruta de la música!")
         messagebox.showinfo("Ayuda", ayuda_texto)
