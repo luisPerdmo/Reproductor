@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+import pygame
 import pygame.mixer as mx
 from tkinter import filedialog
 from Tooltip import Tooltip
@@ -9,31 +10,23 @@ import random
 
 class Reproductor():
 
-    def adelantar10Segundos(self, event):
+    def adelantar15Segundos(self, event):
         if self.cancionActual:
-            new_position = self.tiempoGuardado + 10  
-            if new_position > self.duracionTotal:
-                new_position = self.duracionTotal  
-            self.tiempoGuardado = new_position  
-
-            if mx.music.get_busy(): 
-                self.play(event)
-            else:
-                mx.music.set_pos(self.tiempoGuardado)
+            self.tiempoGuardado = int(self.tiempoGuardado)  
+            self.duracionTotal = int(self.duracionTotal)  
+            nueva_posicion = self.tiempoGuardado + 15
+            if nueva_posicion > self.duracionTotal:
+                nueva_posicion = self.duracionTotal
+            self.tiempoGuardado = nueva_posicion
+            pygame.mixer.music.set_pos(self.tiempoGuardado)
+            self.actualizarProgreso()
+            self.lblTiempoTranscurrido.config(text=f"{self.tiempoGuardado} s")
+            print(f"Tiempo guardado: {self.tiempoGuardado}")
+            print(f"Duración total: {self.duracionTotal}")
 
     def retroceder10Segundos(self, event):
-        if self.cancionActual:
-            new_position = self.tiempoGuardado - 10  
-            if new_position > self.duracionTotal:
-                new_position = 0 
-                new_position = self.duracionTotal  
-            self.tiempoGuardado = new_position  
-
-            if mx.music.get_busy(): 
-                self.play(event)
-            else:
-                mx.music.set_pos(self.tiempoGuardado)
-
+        pass
+        
     def animarSondas(self):
         if mx.music.get_busy():
             for i, sonda in enumerate(self.sondas):
@@ -140,13 +133,17 @@ class Reproductor():
 
     def actualizarProgreso(self):
         if self.cancionActual:
-            if mx.music.get_busy():
-                tiempoTranscurrido = mx.music.get_pos() / 1000
-                self.tiempoGuardado = tiempoTranscurrido  
+            if mx.music.get_busy(): 
+                tiempoPos = mx.music.get_pos()  
+                tiempoTranscurrido = tiempoPos / 1000  
+                if self.tiempoGuardado == 0:  
+                    self.tiempoGuardado = int(tiempoTranscurrido)
             else:
+                if self.tiempoGuardado == 0:
+                    self.tiempoGuardado = 1  
                 tiempoTranscurrido = self.tiempoGuardado
-            progreso = tiempoTranscurrido / self.duracionTotal 
-            self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 20))
+            progreso = tiempoTranscurrido / self.duracionTotal
+            self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 20)) 
             minutosTranscurridos = int(tiempoTranscurrido // 60)
             segundosTranscurridos = int(tiempoTranscurrido % 60)
             tiempoTranscurridoStr = f"{minutosTranscurridos:02}:{segundosTranscurridos:02}"
@@ -155,7 +152,8 @@ class Reproductor():
             duracionTotalStr = f"{minutosTotal:02}:{segundosTotal:02}"
             self.lblTiempoTranscurrido.config(text=tiempoTranscurridoStr)
             self.lblDuracionTotal.config(text=duracionTotalStr)
-            self.ventana.after(100, self.actualizarProgreso)
+            self.ventana.after(50, self.actualizarProgreso)
+
     
     def obtenerDuracionCancion(self, cancion):
         sound = mx.Sound(cancion)
@@ -229,12 +227,11 @@ class Reproductor():
 
         self.btnBack2 = tk.Label(self.ventana, image=self.back2, bg="#FFFFFF")
         self.btnBack2.place(relx=0.33, rely=0.76, width=40, height=40, anchor="center")
-        self.btnBack2.bind("<Button-1>", self.retroceder10Segundos)
         Tooltip(self.btnBack2,"Presione para regresar 10 segundos")
 
         self.btnBack = tk.Label(self.ventana, image=self.back, bg="#FFFFFF")
         self.btnBack.place(relx=0.67, rely=0.76, width=40, height=40, anchor="center")
-        self.btnBack.bind("<Button-1>", self.adelantar10Segundos)
+        self.btnBack.bind("<Button-1>", self.adelantar15Segundos)
         Tooltip(self.btnBack,"Presione para adelantar 10 segundos")
 
         self.lblMenu = tk.Label(self.ventana, image=self.menu, bg="#FFFFFF")
@@ -287,8 +284,6 @@ class Reproductor():
         self.ventana.bind("<space>", self.play)  
         self.ventana.bind("<Control-s>", self.cambiarCancionSiguiente) 
         self.ventana.bind("<Control-c>", self.cambiarCancionAnterior)
-        self.ventana.bind("<Right>", self.adelantar10Segundos)
-        self.ventana.bind("<Left>", self.retroceder10Segundos)
         self.ventana.bind("<Control-m>", self.Abrirmenu)
         self.ventana.bind("<F1>", self.mostrarAyuda)    
             
