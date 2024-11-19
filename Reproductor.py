@@ -10,7 +10,7 @@ import random
 
 class Reproductor():
 
-    def adelantar15Segundos(self, event):
+    def adelantar10Segundos(self, event):
         if self.cancionActual:
             self.tiempoGuardado = int(self.tiempoGuardado)  
             self.duracionTotal = int(self.duracionTotal)  
@@ -230,7 +230,7 @@ class Reproductor():
 
         self.btnBack = tk.Label(self.ventana, image=self.back, bg="#FFFFFF")
         self.btnBack.place(relx=0.67, rely=0.76, width=40, height=40, anchor="center")
-        self.btnBack.bind("<Button-1>", self.adelantar15Segundos)
+        self.btnBack.bind("<Button-1>", self.adelantar10Segundos)
         Tooltip(self.btnBack,"Presione para adelantar 10 segundos")
 
         self.lblMenu = tk.Label(self.ventana, image=self.menu, bg="#FFFFFF")
