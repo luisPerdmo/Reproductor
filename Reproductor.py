@@ -14,13 +14,12 @@ class Reproductor():
         if self.cancionActual:
             self.tiempoGuardado = int(self.tiempoGuardado)  
             self.duracionTotal = int(self.duracionTotal)  
-            nueva_posicion = self.tiempoGuardado + 15
+            nueva_posicion = self.tiempoGuardado + 10
             if nueva_posicion > self.duracionTotal:
                 nueva_posicion = self.duracionTotal
             self.tiempoGuardado = nueva_posicion
             pygame.mixer.music.set_pos(self.tiempoGuardado)
             self.actualizarProgreso()
-            self.lblTiempoTranscurrido.config(text=f"{self.tiempoGuardado} s")
             print(f"Tiempo guardado: {self.tiempoGuardado}")
             print(f"Duración total: {self.duracionTotal}")
 
