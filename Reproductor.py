@@ -34,17 +34,25 @@ class Reproductor():
         if self.cancionActual:
             self.tiempoGuardado = int(self.tiempoGuardado)  
             self.duracionTotal = int(self.duracionTotal)  
-            nueva_posicion = self.tiempoGuardado + 10
-            if nueva_posicion > self.duracionTotal:
-                nueva_posicion = self.duracionTotal
-            self.tiempoGuardado = nueva_posicion
+            nuevaPosicion = self.tiempoGuardado + 10
+            if nuevaPosicion > self.duracionTotal:
+                nuevaPosicion = self.duracionTotal
+            self.tiempoGuardado = nuevaPosicion
             pygame.mixer.music.set_pos(self.tiempoGuardado)
             self.actualizarProgreso()
             print(f"Tiempo guardado: {self.tiempoGuardado}")
             print(f"Duración total: {self.duracionTotal}")
 
     def retroceder10Segundos(self, event):
-        pass
+        if self.cancionActual:
+            self.tiempoGuardado = int(self.tiempoGuardado)
+            nuevaPosicion = self.tiempoGuardado - 10
+            if nuevaPosicion < 0:
+                nuevaPosicion = 0
+            self.tiempoGuardado = nuevaPosicion
+            pygame.mixer.music.set_pos(self.tiempoGuardado)
+            self.actualizarProgreso()
+            print(f"Tiempo guardado: {self.tiempoGuardado}")
 
     # Método para actualizar el Listbox con los nombres de las canciones
     def actualizarListaCanciones(self):
@@ -59,7 +67,10 @@ class Reproductor():
             self.archivosCanciones = [f for f in os.listdir(self.carpeta) if f.endswith('.mp3')]
             if not self.archivosCanciones:
                 messagebox.showwarning("Advertencia", "La carpeta seleccionada no contiene archivos MP3.")
-            self.actualizarListaCanciones()
+            else:
+                self.actualizarListaCanciones()
+        else:
+            messagebox.showwarning("Advertencia", "No se ha seleccionado ninguna carpeta.")
 
     def moverVolumen(self, event):
         if 20 <= event.x <= 184:  
@@ -228,6 +239,7 @@ class Reproductor():
 
         self.btnBack2 = tk.Label(self.ventana, image=self.back2, bg="#FFFFFF")
         self.btnBack2.place(relx=0.33, rely=0.76, width=40, height=40, anchor="center")
+        self.btnBack2.bind("<Button-1>", self.retroceder10Segundos)
         Tooltip(self.btnBack2,"Presione para regresar 10 segundos")
 
         self.btnBack = tk.Label(self.ventana, image=self.back, bg="#FFFFFF")
