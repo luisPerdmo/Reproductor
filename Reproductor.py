@@ -10,33 +10,6 @@ import random
 
 class Reproductor():
 
-    def adelantar10Segundos(self, event):
-        if self.cancionActual:
-            self.tiempoGuardado = int(self.tiempoGuardado)  
-            self.duracionTotal = int(self.duracionTotal)  
-            nueva_posicion = self.tiempoGuardado + 10
-            if nueva_posicion > self.duracionTotal:
-                nueva_posicion = self.duracionTotal
-            self.tiempoGuardado = nueva_posicion
-            pygame.mixer.music.set_pos(self.tiempoGuardado)
-            self.actualizarProgreso()
-            print(f"Tiempo guardado: {self.tiempoGuardado}")
-            print(f"Duración total: {self.duracionTotal}")
-
-    def retroceder10Segundos(self, event):
-        pass
-        
-    def animarSondas(self):
-        if mx.music.get_busy():
-            for i, sonda in enumerate(self.sondas):
-                altura = random.randint(50, 200)  
-                x1 = i * self.sondaAncho
-                x2 = (i + 1) * self.sondaAncho
-                y1 = self.sondaBase - altura  
-                y2 = self.sondaBase
-                self.canvasSondas.coords(sonda, x1, y1, x2, y2)  
-            self.frame.after(120, self.animarSondas)
-
     def Abrirmenu(self, event):
         self.ventanaMenu = tk.Toplevel(self.ventana)
         self.ventanaMenu.title("Carpeta de Canciones")
@@ -57,6 +30,22 @@ class Reproductor():
         #atajo de ventana menu
         self.ventanaMenu.bind("<Control-o>", self.cargarCarpetaCanciones)
 
+    def adelantar10Segundos(self, event):
+        if self.cancionActual:
+            self.tiempoGuardado = int(self.tiempoGuardado)  
+            self.duracionTotal = int(self.duracionTotal)  
+            nueva_posicion = self.tiempoGuardado + 10
+            if nueva_posicion > self.duracionTotal:
+                nueva_posicion = self.duracionTotal
+            self.tiempoGuardado = nueva_posicion
+            pygame.mixer.music.set_pos(self.tiempoGuardado)
+            self.actualizarProgreso()
+            print(f"Tiempo guardado: {self.tiempoGuardado}")
+            print(f"Duración total: {self.duracionTotal}")
+
+    def retroceder10Segundos(self, event):
+        pass
+
     # Método para actualizar el Listbox con los nombres de las canciones
     def actualizarListaCanciones(self):
         self.listaCanciones.delete(0, tk.END)  
@@ -68,6 +57,8 @@ class Reproductor():
         self.carpeta = filedialog.askdirectory()
         if self.carpeta:
             self.archivosCanciones = [f for f in os.listdir(self.carpeta) if f.endswith('.mp3')]
+            if not self.archivosCanciones:
+                messagebox.showwarning("Advertencia", "La carpeta seleccionada no contiene archivos MP3.")
             self.actualizarListaCanciones()
 
     def moverVolumen(self, event):
@@ -157,6 +148,17 @@ class Reproductor():
     def obtenerDuracionCancion(self, cancion):
         sound = mx.Sound(cancion)
         return sound.get_length()
+    
+    def animarSondas(self):
+        if mx.music.get_busy():
+            for i, sonda in enumerate(self.sondas):
+                altura = random.randint(50, 200)  
+                x1 = i * self.sondaAncho
+                x2 = (i + 1) * self.sondaAncho
+                y1 = self.sondaBase - altura  
+                y2 = self.sondaBase
+                self.canvasSondas.coords(sonda, x1, y1, x2, y2)  
+            self.frame.after(120, self.animarSondas)
 
     #Muestra la ayuda 
     def mostrarAyuda(self, event):
@@ -184,7 +186,7 @@ class Reproductor():
         self.listaCanciones = []#lista de canciones
         self.cancionActual = None
         self.volumen = 0.5  # Volumen inicial
-        self.posicionVolumen = 20
+        self.posicionVolumen = 103
         self.duracionTotal = 0  # Duración total de la canción
         self.sondas = []
         self.archivosCanciones = []
@@ -243,22 +245,24 @@ class Reproductor():
         self.btnHelp.bind("<Button-1>", self.mostrarAyuda)
         Tooltip(self.btnHelp,"Presione para mirar ayuda")
 
+        #Volumen y pausa
         self.lblMute = tk.Label(self.ventana, image=self.mute, bg="#FFFFFF")
         self.lblMute.place(relx=0.34, rely=0.84, width=20, height=20, anchor="center")
-
         self.lblVolumen = tk.Label(self.ventana, image=self.volume, bg="#FFFFFF")
         self.lblVolumen.place(relx=0.66, rely=0.84, width=20, height=20, anchor="center")
+
+        #control de volumen
+        self.Volumen = tk.Canvas(self.ventana, width=190, height=50, bg="#FFFFFF", highlightthickness=0)
+        self.Volumen.place(relx=0.49, rely=0.84, anchor="center")
+        self.Volumen.create_line(20, 25, 200, 25, fill="#333", width=1)
+        self.volumenMarker = self.Volumen.create_oval(self.posicionVolumen - 5, 25 - 5, self.posicionVolumen + 5, 25 + 5, fill="black")
+        self.Volumen.bind("<B1-Motion>", self.moverVolumen)
+        mx.music.set_volume(self.volumen)
 
         #Barra de progreso 
         self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#C6C6C6", bd=0, relief="flat")
         self.barra.place(relx=0.14, rely=0.67)
         self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#000000", outline="") 
-
-        #tiempo transcurrido y la duración total
-        self.lblTiempoTranscurrido = tk.Label(self.ventana, text="00:00", bg="#FFFFFF", font=("Helvetica", 10))
-        self.lblTiempoTranscurrido.place(relx=0.15, rely=0.64)
-        self.lblDuracionTotal = tk.Label(self.ventana, text="00:00", bg="#FFFFFF", font=("Helvetica", 10))
-        self.lblDuracionTotal.place(relx=0.82, rely=0.64)
 
         #sondas
         self.numSondas = 15 
@@ -272,12 +276,11 @@ class Reproductor():
         self.lblNombreCancion = tk.Label(self.ventana, text="", bg="#FFFFFF", font=("Helvetica", 12))
         self.lblNombreCancion.place(relx=0.5, rely=0.60, anchor="center")
 
-        #control de volumen
-        self.Volumen = tk.Canvas(self.ventana, width=190, height=50, bg="#FFFFFF", highlightthickness=0)
-        self.Volumen.place(relx=0.49, rely=0.84, anchor="center")
-        self.Volumen.create_line(20, 25, 200, 25, fill="#333", width=1)
-        self.volumenMarker = self.Volumen.create_oval(self.posicionVolumen - 5, 25 - 5, self.posicionVolumen + 5, 25 + 5, fill="black")
-        self.Volumen.bind("<B1-Motion>", self.moverVolumen)
+        #tiempo transcurrido y la duración total
+        self.lblTiempoTranscurrido = tk.Label(self.ventana, text="00:00", bg="#FFFFFF", font=("Helvetica", 10))
+        self.lblTiempoTranscurrido.place(relx=0.15, rely=0.64)
+        self.lblDuracionTotal = tk.Label(self.ventana, text="00:00", bg="#FFFFFF", font=("Helvetica", 10))
+        self.lblDuracionTotal.place(relx=0.82, rely=0.64)
 
         #Atajos 
         self.ventana.bind("<space>", self.play)  
