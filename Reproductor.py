@@ -123,7 +123,6 @@ class Reproductor():
                     mx.music.set_pos(self.tiempoGuardado)  
                     self.btnPlay.config(image=self.pause)
                     self.animarSondas()
-
         else:            
             messagebox.showinfo("Advertencia!", "No ha seleccionado una lista de canciones...")
 
@@ -294,7 +293,7 @@ class Reproductor():
 
         #Atajos 
         self.ventana.bind("<space>", self.play)
-        self.ventana.bind("<Rigth>", self.adelantar10Segundos)
+        self.ventana.bind("<Right>", self.adelantar10Segundos)
         self.ventana.bind("<Left>", self.retroceder10Segundos)  
         self.ventana.bind("<Control-s>", self.cambiarCancionSiguiente) 
         self.ventana.bind("<Control-c>", self.cambiarCancionAnterior)
