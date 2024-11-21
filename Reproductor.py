@@ -46,8 +46,8 @@ class Reproductor():
             nuevaPosicion = max(0, self.tiempoGuardado - 10)  # Evitar valores negativos
             pygame.mixer.music.set_pos(nuevaPosicion)  # Ajustar la posición en la canción
             self.tiempoGuardado = nuevaPosicion  # Actualizar tiempo guardado
-            self.actualizarProgreso()  # Llamar inmediatamente a la actualización
-            
+            self.actualizarProgreso()
+
     # Método para actualizar el Listbox con los nombres de las canciones
     def actualizarListaCanciones(self):
         self.listaCanciones.delete(0, tk.END)  
