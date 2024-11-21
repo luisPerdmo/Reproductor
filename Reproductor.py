@@ -122,26 +122,24 @@ class Reproductor():
                     mx.music.unpause()
                     mx.music.set_pos(self.tiempoGuardado)  
                     self.btnPlay.config(image=self.pause)
+                    self.animarSondas()
 
         else:            
             messagebox.showinfo("Advertencia!", "No ha seleccionado una lista de canciones...")
 
     def actualizarProgreso(self):
         if self.cancionActual:
-            if mx.music.get_busy():  # Si la música está sonando
-                tiempoPos = mx.music.get_pos() / 1000  # Obtén el tiempo transcurrido en segundos
+            if mx.music.get_busy():  
+                tiempoPos = mx.music.get_pos() / 1000  
                 tiempoTranscurrido = self.tiempoGuardado + tiempoPos
-            else:  # Si la música está pausada o detenida
+            else:  
                 tiempoTranscurrido = self.tiempoGuardado
 
-            # Asegúrate de que no se exceda la duración total
             tiempoTranscurrido = min(tiempoTranscurrido, self.duracionTotal)
             progreso = tiempoTranscurrido / self.duracionTotal
 
-            # Actualiza la barra de progreso
             self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 10)) 
 
-            # Actualiza el tiempo mostrado en pantalla
             minutosTranscurridos = int(tiempoTranscurrido // 60)
             segundosTranscurridos = int(tiempoTranscurrido % 60)
             tiempoTranscurridoStr = f"{minutosTranscurridos:02}:{segundosTranscurridos:02}"
@@ -153,11 +151,8 @@ class Reproductor():
             self.lblTiempoTranscurrido.config(text=tiempoTranscurridoStr)
             self.lblDuracionTotal.config(text=duracionTotalStr)
 
-            # Si no se ha alcanzado el final, continúa actualizando
             if tiempoTranscurrido < self.duracionTotal:
                 self.ventana.after(1000, self.actualizarProgreso)
-
-
 
     def obtenerDuracionCancion(self, cancion):
         sound = mx.Sound(cancion)
@@ -298,7 +293,9 @@ class Reproductor():
         self.lblDuracionTotal.place(relx=0.82, rely=0.64)
 
         #Atajos 
-        self.ventana.bind("<space>", self.play)  
+        self.ventana.bind("<space>", self.play)
+        self.ventana.bind("<Rigth>", self.adelantar10Segundos)
+        self.ventana.bind("<Left>", self.retroceder10Segundos)  
         self.ventana.bind("<Control-s>", self.cambiarCancionSiguiente) 
         self.ventana.bind("<Control-c>", self.cambiarCancionAnterior)
         self.ventana.bind("<Control-m>", self.Abrirmenu)
