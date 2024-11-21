@@ -44,15 +44,13 @@ class Reproductor():
     def retroceder10Segundos(self, event):
         if self.cancionActual:
             self.tiempoGuardado = int(self.tiempoGuardado)
+            self.duracionTotal = int(self.duracionTotal)
             nuevaPosicion = self.tiempoGuardado - 10
             if nuevaPosicion < 0:
                 nuevaPosicion = 0  
             self.tiempoGuardado = nuevaPosicion
             pygame.mixer.music.set_pos(self.tiempoGuardado)
             self.ventana.after(100, self.actualizarProgreso)
-            print(f"Tiempo guardado: {self.tiempoGuardado}")
-            print(f"Duración total: {self.duracionTotal}")
-
 
     # Método para actualizar el Listbox con los nombres de las canciones
     def actualizarListaCanciones(self):
