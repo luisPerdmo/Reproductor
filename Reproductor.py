@@ -180,6 +180,7 @@ class Reproductor():
         "• Ctrl + M: Abrir el menú de canciones.\n"
         "• Ctrl + O: Seleccionar carpeta de canciones.\n"
         "• F1: Mostrar esta ayuda.\n\n"
+        "Nota: Querido usuario, para poder usar nuestro reproductor, es necesario que tenga una carpeta en su computador con la música que desea escuchar en formato mp3. Esto es para evitar problemas de copyright.\n\n"
         "¡Disfruta de la música!")
 
     def __init__(self):
