@@ -36,12 +36,10 @@ class Reproductor():
             self.duracionTotal = int(self.duracionTotal)
             nuevaPosicion = self.tiempoGuardado + 10
             if nuevaPosicion >= self.duracionTotal:
-                nuevaPosicion = self.duracionTotal - 1 
+                nuevaPosicion = self.duracionTotal - 1
             self.tiempoGuardado = nuevaPosicion
-        pygame.mixer.music.set_pos(self.tiempoGuardado)
-        self.ventana.after(100, self.actualizarProgreso)
-        print(f"Tiempo guardado: {self.tiempoGuardado}")
-        print(f"Duración total: {self.duracionTotal}")
+            pygame.mixer.music.set_pos(self.tiempoGuardado) 
+            self.actualizarProgreso()
 
     def retroceder10Segundos(self, event):
         if self.cancionActual:
@@ -53,6 +51,7 @@ class Reproductor():
             pygame.mixer.music.set_pos(self.tiempoGuardado)
             self.ventana.after(100, self.actualizarProgreso)
             print(f"Tiempo guardado: {self.tiempoGuardado}")
+            print(f"Duración total: {self.duracionTotal}")
 
 
     # Método para actualizar el Listbox con los nombres de las canciones
@@ -135,24 +134,22 @@ class Reproductor():
 
     def actualizarProgreso(self):
         if self.cancionActual:
-            if mx.music.get_busy():  
-                tiempoPos = mx.music.get_pos() / 1000  
-                tiempoTranscurrido = max(self.tiempoGuardado, tiempoPos)
+            if pygame.mixer.music.get_busy():  
+                tiempoPos = pygame.mixer.music.get_pos() / 1000 
+                tiempoTranscurrido = max(self.tiempoGuardado, tiempoPos)  
                 self.tiempoGuardado = tiempoTranscurrido  
-            else:  
-                tiempoTranscurrido = self.tiempoGuardado
-            progreso = tiempoTranscurrido / self.duracionTotal
-            progreso = min(progreso, 1.0)  
-            self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 20))
-            minutosTranscurridos = int(tiempoTranscurrido // 60)
-            segundosTranscurridos = int(tiempoTranscurrido % 60)
-            tiempoTranscurridoStr = f"{minutosTranscurridos:02}:{segundosTranscurridos:02}"
-            minutosTotal = int(self.duracionTotal // 60)
-            segundosTotal = int(self.duracionTotal % 60)
-            duracionTotalStr = f"{minutosTotal:02}:{segundosTotal:02}"
-            self.lblTiempoTranscurrido.config(text=tiempoTranscurridoStr)
-            self.lblDuracionTotal.config(text=duracionTotalStr)
-            self.ventana.after(100, self.actualizarProgreso)
+                progreso = tiempoTranscurrido / self.duracionTotal  
+                progreso = min(progreso, 1.0)  #
+                self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 20))
+                minutosTranscurridos = int(tiempoTranscurrido // 60)
+                segundosTranscurridos = int(tiempoTranscurrido % 60)
+                tiempoTranscurridoStr = f"{minutosTranscurridos:02}:{segundosTranscurridos:02}"
+                minutosTotal = int(self.duracionTotal // 60)
+                segundosTotal = int(self.duracionTotal % 60)
+                duracionTotalStr = f"{minutosTotal:02}:{segundosTotal:02}"
+                self.lblTiempoTranscurrido.config(text=tiempoTranscurridoStr)
+                self.lblDuracionTotal.config(text=duracionTotalStr)
+                self.ventana.after(100, self.actualizarProgreso)
 
     def obtenerDuracionCancion(self, cancion):
         sound = mx.Sound(cancion)
