@@ -43,9 +43,9 @@ class Reproductor():
 
     def retroceder10Segundos(self, event):
         if self.cancionActual:
-            nuevaPosicion = max(0, self.tiempoGuardado - 10)  # Evitar valores negativos
-            pygame.mixer.music.set_pos(nuevaPosicion)  # Ajustar la posición en la canción
-            self.tiempoGuardado = nuevaPosicion  # Actualizar tiempo guardado
+            nuevaPosicion = max(0, self.tiempoGuardado - 10)  
+            pygame.mixer.music.set_pos(nuevaPosicion)  
+            self.tiempoGuardado = nuevaPosicion  
             self.actualizarProgreso()
 
     # Método para actualizar el Listbox con los nombres de las canciones
@@ -112,17 +112,17 @@ class Reproductor():
                 nombreCancion = self.archivosCanciones[indice]
                 self.lblNombreCancion.config(text=nombreCancion)
                 self.animarSondas()
-            else:  
-                if mx.music.get_busy(): 
-                    mx.music.pause() 
-                    self.btnPlay.config(image=self.play1) 
+            else:
+                if mx.music.get_busy():  
+                    mx.music.pause()
+                    self.btnPlay.config(image=self.play1)
+                    self.tiempoGuardado += mx.music.get_pos() / 1000  
                     self.animarSondas()
-                else: 
-                    posicion = mx.music.get_pos()  
-                    mx.music.unpause()  
-                    self.btnPlay.config(image=self.pause) 
-                    self.tiempoGuardado = posicion / 1000
-                    self.animarSondas()
+                else:  
+                    mx.music.unpause()
+                    mx.music.set_pos(self.tiempoGuardado)  
+                    self.btnPlay.config(image=self.pause)
+
         else:            
             messagebox.showinfo("Advertencia!", "No ha seleccionado una lista de canciones...")
 
