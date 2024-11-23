@@ -11,6 +11,8 @@ import random
 class Reproductor():
 
     def Abrirmenu(self, event):
+        if self.ventanaMenu is not None and self.ventanaMenu.winfo_exists():
+            return
         self.ventanaMenu = tk.Toplevel(self.ventana)
         self.ventanaMenu.title("Carpeta de Canciones")
         self.ventanaMenu.config(width=400, height=300)
@@ -120,30 +122,29 @@ class Reproductor():
                 nombreCancion = self.archivosCanciones[indice]
                 self.lblNombreCancion.config(text=nombreCancion)
                 self.animarSondas()
-            else:
-                if mx.music.get_busy():  
+            else:  
+                if mx.music.get_busy(): 
                     mx.music.pause()
                     self.btnPlay.config(image=self.play1)
-                    self.tiempoGuardado += mx.music.get_pos() / 1000  
                     self.animarSondas()
                 else:  
                     mx.music.unpause()
                     mx.music.set_pos(self.tiempoGuardado)  
                     self.btnPlay.config(image=self.pause)
                     self.animarSondas()
-        else:            
-            messagebox.showinfo("Advertencia!", "No ha seleccionado una lista de canciones...")
+
 
     def actualizarProgreso(self):
         if self.cancionActual:
-            if mx.music.get_busy():  
-                tiempoPos = mx.music.get_pos() / 1000  
+            if mx.music.get_busy(): 
+                tiempoPos = mx.music.get_pos() / 1000
                 tiempoTranscurrido = self.tiempoGuardado + tiempoPos
             else:  
                 tiempoTranscurrido = self.tiempoGuardado
+
             tiempoTranscurrido = min(tiempoTranscurrido, self.duracionTotal)
             progreso = tiempoTranscurrido / self.duracionTotal
-            self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 10)) 
+            self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 10))
             minutosTranscurridos = int(tiempoTranscurrido // 60)
             segundosTranscurridos = int(tiempoTranscurrido % 60)
             tiempoTranscurridoStr = f"{minutosTranscurridos:02}:{segundosTranscurridos:02}"
@@ -153,7 +154,8 @@ class Reproductor():
             self.lblTiempoTranscurrido.config(text=tiempoTranscurridoStr)
             self.lblDuracionTotal.config(text=duracionTotalStr)
             if tiempoTranscurrido < self.duracionTotal:
-                self.ventana.after(1000, self.actualizarProgreso)
+                self.ventana.after(100, self.actualizarProgreso)
+
 
     def obtenerDuracionCancion(self, cancion):
         sound = mx.Sound(cancion)
@@ -201,6 +203,7 @@ class Reproductor():
         self.duracionTotal = 0  # Duración total de la canción
         self.sondas = []
         self.archivosCanciones = []
+        self.ventanaMenu=None
 
         #frame
         self.frameBorde = tk.Frame(self.ventana, bd=5, relief="ridge", bg="black")
