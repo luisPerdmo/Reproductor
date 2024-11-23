@@ -48,6 +48,14 @@ class Reproductor():
             self.tiempoGuardado = nuevaPosicion  
             self.actualizarProgreso()
 
+    def moverProgreso(self, event):
+        if self.cancionActual:
+            nuevaPosicion = (event.x / 520) * self.duracionTotal 
+            nuevaPosicion = min(max(nuevaPosicion, 0), self.duracionTotal)  
+            self.tiempoGuardado = nuevaPosicion  
+            mx.music.set_pos(self.tiempoGuardado) 
+            self.actualizarProgreso()
+
     # Método para actualizar el Listbox con los nombres de las canciones
     def actualizarListaCanciones(self):
         self.listaCanciones.delete(0, tk.END)  
@@ -133,23 +141,17 @@ class Reproductor():
                 tiempoTranscurrido = self.tiempoGuardado + tiempoPos
             else:  
                 tiempoTranscurrido = self.tiempoGuardado
-
             tiempoTranscurrido = min(tiempoTranscurrido, self.duracionTotal)
             progreso = tiempoTranscurrido / self.duracionTotal
-
             self.barra.coords(self.barraprogreso, (0, 0, progreso * 520, 10)) 
-
             minutosTranscurridos = int(tiempoTranscurrido // 60)
             segundosTranscurridos = int(tiempoTranscurrido % 60)
             tiempoTranscurridoStr = f"{minutosTranscurridos:02}:{segundosTranscurridos:02}"
-
             minutosTotal = int(self.duracionTotal // 60)
             segundosTotal = int(self.duracionTotal % 60)
             duracionTotalStr = f"{minutosTotal:02}:{segundosTotal:02}"
-
             self.lblTiempoTranscurrido.config(text=tiempoTranscurridoStr)
             self.lblDuracionTotal.config(text=duracionTotalStr)
-
             if tiempoTranscurrido < self.duracionTotal:
                 self.ventana.after(1000, self.actualizarProgreso)
 
@@ -273,6 +275,7 @@ class Reproductor():
         self.barra = tk.Canvas(self.ventana, width=509, height=10, bg="#C6C6C6", bd=0, relief="flat")
         self.barra.place(relx=0.14, rely=0.67)
         self.barraprogreso = self.barra.create_rectangle(0, 0, 0, 10, fill="#000000", outline="") 
+        self.barra.bind("<Button-1>", self.moverProgreso)
 
         #sondas
         self.numSondas = 15 
